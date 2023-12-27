@@ -1,0 +1,26 @@
+﻿@model VarastoMVC.Models.Kategoriat
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Kategoriat</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.KategoriaNimi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KategoriaNimi)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.KategoriaId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

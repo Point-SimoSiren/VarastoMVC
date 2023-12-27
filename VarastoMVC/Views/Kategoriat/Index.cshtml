@@ -1,0 +1,33 @@
+﻿@model IEnumerable<VarastoMVC.Models.Kategoriat>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.KategoriaNimi)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.KategoriaNimi)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.KategoriaId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.KategoriaId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.KategoriaId })
+        </td>
+    </tr>
+}
+
+</table>

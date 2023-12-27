@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="VarastoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Artikkelit">
+          <Key>
+            <PropertyRef Name="ArtikkeliId" />
+          </Key>
+          <Property Name="ArtikkeliId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Artikkelinimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="KategoriaId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kategoriat">
+          <Key>
+            <PropertyRef Name="KategoriaId" />
+          </Key>
+          <Property Name="KategoriaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KategoriaNimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Artikkelit_Kategoriat">
+          <End Role="Kategoriat" Type="Self.Kategoriat" Multiplicity="1" />
+          <End Role="Artikkelit" Type="Self.Artikkelit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriat">
+              <PropertyRef Name="KategoriaId" />
+            </Principal>
+            <Dependent Role="Artikkelit">
+              <PropertyRef Name="KategoriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VarastoDBModelStoreContainer">
+          <EntitySet Name="Artikkelit" EntityType="Self.Artikkelit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kategoriat" EntityType="Self.Kategoriat" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Artikkelit_Kategoriat" Association="Self.FK_Artikkelit_Kategoriat">
+            <End Role="Kategoriat" EntitySet="Kategoriat" />
+            <End Role="Artikkelit" EntitySet="Artikkelit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VarastoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Artikkelit">
+          <Key>
+            <PropertyRef Name="ArtikkeliId" />
+          </Key>
+          <Property Name="ArtikkeliId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Artikkelinimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="KategoriaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Kategoriat" Relationship="Self.FK_Artikkelit_Kategoriat" FromRole="Artikkelit" ToRole="Kategoriat" />
+        </EntityType>
+        <EntityType Name="Kategoriat">
+          <Key>
+            <PropertyRef Name="KategoriaId" />
+          </Key>
+          <Property Name="KategoriaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KategoriaNimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Artikkelit" Relationship="Self.FK_Artikkelit_Kategoriat" FromRole="Kategoriat" ToRole="Artikkelit" />
+        </EntityType>
+        <Association Name="FK_Artikkelit_Kategoriat">
+          <End Role="Kategoriat" Type="Self.Kategoriat" Multiplicity="1" />
+          <End Role="Artikkelit" Type="Self.Artikkelit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriat">
+              <PropertyRef Name="KategoriaId" />
+            </Principal>
+            <Dependent Role="Artikkelit">
+              <PropertyRef Name="KategoriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VarastoDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Artikkelit" EntityType="Self.Artikkelit" />
+          <EntitySet Name="Kategoriat" EntityType="Self.Kategoriat" />
+          <AssociationSet Name="FK_Artikkelit_Kategoriat" Association="Self.FK_Artikkelit_Kategoriat">
+            <End Role="Kategoriat" EntitySet="Kategoriat" />
+            <End Role="Artikkelit" EntitySet="Artikkelit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VarastoDBModelStoreContainer" CdmEntityContainer="VarastoDBEntities">
+          <EntitySetMapping Name="Artikkelit">
+            <EntityTypeMapping TypeName="VarastoDBModel.Artikkelit">
+              <MappingFragment StoreEntitySet="Artikkelit">
+                <ScalarProperty Name="ArtikkeliId" ColumnName="ArtikkeliId" />
+                <ScalarProperty Name="Artikkelinimi" ColumnName="Artikkelinimi" />
+                <ScalarProperty Name="KategoriaId" ColumnName="KategoriaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kategoriat">
+            <EntityTypeMapping TypeName="VarastoDBModel.Kategoriat">
+              <MappingFragment StoreEntitySet="Kategoriat">
+                <ScalarProperty Name="KategoriaId" ColumnName="KategoriaId" />
+                <ScalarProperty Name="KategoriaNimi" ColumnName="KategoriaNimi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
