@@ -26,12 +26,14 @@
     <div class="form-group">
         @Html.LabelFor(model => model.KategoriaId, "KategoriaId", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("KategoriaId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("KategoriaId", null, htmlAttributes: new { @class = "form-control", id="alkuperainen", onchange="getJson()" })
             @Html.ValidationMessageFor(model => model.KategoriaId, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div id="paikka" class="col-md - 10"></div>
+    <div class="form-group">
+        <div id="paikka" class="col-md - 10"></div>
+    </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -51,23 +53,27 @@
         @Scripts.Render("~/bundles/jqueryval")
 
         <script>
+
+
+            var ekaDropdown = document.getElementById("alkuperainen")
+
             // Määritellää funktio
             async function getJson() {
-                    let x = `<select class="form-control" id="ArtikkeliId" name="ArtikkeliId">` // select listin alkutägi
 
-                    const response = await fetch("https://localhost:44349/artikkelit/ArtikkelitByKategoria/1")
-                    const artikkelit = await response.json() // muunnetaan json vastaus javascript muotoon
-                    await artikkelit.map(a => {
-                        x += `<option value="${a.ArtikkeliId}">${a.ArtikkeliNimi}</option>` // map silmukka
-                    })
+                let id = ekaDropdown.value
 
-                    x += `</select>` // päättyvä tägi
+                let x = `<select class="form-control" id="ArtikkeliId" name="ArtikkeliId">` // select listin alkutägi
+                const response = await fetch("https://localhost:44349/artikkelit/ArtikkelitByKategoria/" + id)
+                const artikkelit = await response.json() // muunnetaan json vastaus javascript muotoon
+                await artikkelit.map(a => {
+                    x += `<option value="${a.ArtikkeliId}">${a.ArtikkeliNimi}</option>` // map silmukka
+                })
 
-                    document.getElementById("paikka").innerHTML = x // sijoitus html sivulle
-                }
+                x += `</select>` // päättyvä tägi
 
-                // kutsu
-                getJson()
+                document.getElementById("paikka").innerHTML = x // sijoitus html sivulle
+            }
+
         </script>
 
     }
